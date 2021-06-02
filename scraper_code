@@ -1,20 +1,21 @@
 import requests
 from bs4 import BeautifulSoup
+from selenium import webdriver
+import time
 
-
-URL = 'https://www.monster.com/jobs/search?q=software+engineer+internship&where=Maryland'
 try: 
-  page = requests.get(URL)
+  URL = 'https://www.monster.com/jobs/search?q=software+engineer+internship&where=Maryland'
+  driver = webdriver.Chrome(executable_path='tools/chromedriver')
+  driver.get(URL)
+  time.sleep(5) #This is arbitrary. Can change depending on network, amount items loaded.
+  page_html = driver.page_source
+  bsoup = BeautifulSoup(page_html, 'html.parser')
+  with open('content','w') as content:
+    content.write(str(page_html))
 except:
   ("Error opening the URL")
 
-
-soup = BeautifulSoup(page.content, 'html.parser');
-results = soup.findAll('h3', attrs={'name' : 'card_companyname'})
-
-print(results)
-
-
+#results = soup.findAll('div', attrs={'class' : 'title-company-location'})
 #jobtitle = []
 #jobcompany = []
 #joblocation = []
