@@ -15,7 +15,10 @@ try:
 except:
   ("Error opening the URL")
 
-#results = soup.findAll('div', attrs={'class' : 'title-company-location'})
+results = bsoup.find('div', {'class' : 'layout-container'})
+
+print(results.prettify())
+
 #jobtitle = []
 #jobcompany = []
 #joblocation = []
