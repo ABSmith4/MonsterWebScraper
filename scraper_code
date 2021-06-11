@@ -15,12 +15,11 @@ try:
 except:
   ("Error opening the URL")
 
-results = bsoup.find('div', {'class' : 'results-list'})
+resultslist = bsoup.find('div', {'class' : 'results-list'})
 
-for resultslist in results.find_all('div', {'class' : 'results-card'}):
-  result = resultslist.descendants
+for results in resultslist.find_all('div', {'class' : 'results-card'}):
+  result = results.descendants
   for jobinfo in result:
     if jobinfo.name == 'div' and jobinfo.get('class', '') == ['title-company-location']:
 
       print(jobinfo.text, end= '\n' * 2)
-
