@@ -17,7 +17,7 @@ except:
 
 resultslist = bsoup.find('div', {'class' : 'results-list'})
 
-for results in resultslist.find_all('div', {'class' : 'results-card'}):
+for results in resultslist.find_all('div', {'class' : 'results-card'}): #dual for loops serves as a workaround for using .find and .find_all back to back
   result = results.descendants
   for jobinfo in result:
     if jobinfo.name == 'div' and jobinfo.get('class', '') == ['title-company-location']:
