@@ -4,7 +4,7 @@ from selenium import webdriver
 import time
 
 try: 
-  URL = 'https://www.monster.com/jobs/search?q=software+engineer+internship&where=Maryland'
+  URL = 'https://www.monster.com/jobs/search?q=programming+internship&where=Maryland'
   driver = webdriver.Chrome(executable_path='tools/chromedriver')
   driver.get(URL)
   time.sleep(5) #This is arbitrary. Can change depending on network, amount items loaded.
@@ -15,31 +15,12 @@ try:
 except:
   ("Error opening the URL")
 
-results = bsoup.find('div', {'class' : 'layout-container'})
+results = bsoup.find('div', {'class' : 'results-list'})
 
-print(results.prettify())
+for resultslist in results.find_all('div', {'class' : 'results-card'}):
+  result = resultslist.descendants
+  for jobinfo in result:
+    if jobinfo.name == 'div' and jobinfo.get('class', '') == ['title-company-location']:
 
-#jobtitle = []
-#jobcompany = []
-#joblocation = []
-
-#jobs = results.find_all('div', {'class' : 'title-company-location'})
-#for job in jobs:
-  #print(job, end= '\n' * 2)
-  #title = jobinfo.find('h2', {'name' : 'card_title'})
-  #print(title)
-  #company  = jobinfo.find('h3', {'name' : 'card_companyname'})
-  #jobcompany.append(company.text)
-  #location = jobinfo.find('span', {'class' : 'card-job-location'})
-  #joblocation.append(location.text)
-
-#print(jobtitle)
-#print(jobcompany)
-#print(joblocation)
-#print(results.prettify())
-
-#jobtitle = []
-#jobcompany = []
-#joblocation = []
-
+      print(jobinfo.text, end= '\n' * 2)
 
