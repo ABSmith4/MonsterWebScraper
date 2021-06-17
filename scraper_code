@@ -1,7 +1,8 @@
-import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
+
+
 
 try: 
   URL = 'https://www.monster.com/jobs/search?q=programming+internship&where=Maryland'
@@ -17,9 +18,18 @@ except:
 
 resultslist = bsoup.find('div', {'class' : 'results-list'})
 
-for results in resultslist.find_all('div', {'class' : 'results-card'}): #dual for loops serves as a workaround for using .find and .find_all back to back
-  result = results.descendants
-  for jobinfo in result:
-    if jobinfo.name == 'div' and jobinfo.get('class', '') == ['title-company-location']:
 
-      print(jobinfo.text, end= '\n' * 2)
+for resultscard in resultslist.find_all('div', {'class' : 'results-card'}): #dual for loops serves as a workaround for using .find and .find_all back to back
+  results = resultscard.descendants
+  for jobinfo in results:
+    if jobinfo.name == 'div' and jobinfo.get('class', '') == ['title-company-location']:  
+      information = jobinfo
+      jobtitle = information.find('h2', {'class' : 'card-title'}).get_text(separator= " ", strip=True)
+      jobcompany = information.find('h3', {'name' : 'card_companyname'}).get_text(separator= " ", strip=True)
+      joblocation = information.find('span', {'class' : 'card-job-location'}).get_text(separator= " ", strip=True)
+
+      print(jobtitle)
+      print(jobcompany)
+      print(joblocation, end='\n' * 2)
+        #print(jobcompany)
+        #print(joblocation, end= '\n' * 1)
