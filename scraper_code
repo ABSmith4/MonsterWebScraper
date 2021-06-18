@@ -2,10 +2,17 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
 
+title = input("Enter a job title or keyword: ").replace(' ', '+').strip()
+location = input("Where would you like to work? ").replace(' ', '+').strip()
 
+try:
+  if title and location:
+     URL = f'https://www.monster.com/jobs/search?q={title}&where={location}'
+  elif title: 
+    URL = f'https://www.monster.com/jobs/search?q={title}'
+  else:
+     URL = f'https://www.monster.com/jobs/search?q=&where={location}'
 
-try: 
-  URL = 'https://www.monster.com/jobs/search?q=programming+internship&where=Maryland'
   driver = webdriver.Chrome(executable_path='tools/chromedriver')
   driver.get(URL)
   time.sleep(5) #This is arbitrary. Can change depending on network, amount items loaded.
@@ -28,8 +35,7 @@ for resultscard in resultslist.find_all('div', {'class' : 'results-card'}): #dua
       jobcompany = information.find('h3', {'name' : 'card_companyname'}).get_text(separator= " ", strip=True)
       joblocation = information.find('span', {'class' : 'card-job-location'}).get_text(separator= " ", strip=True)
 
+      print('\n')
       print(jobtitle)
       print(jobcompany)
       print(joblocation, end='\n' * 2)
-        #print(jobcompany)
-        #print(joblocation, end= '\n' * 1)
